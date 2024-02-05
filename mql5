@@ -1,0 +1,113 @@
+
+// Golden Watch MT5 - Trading Robot
+// Developer: Forex Robot Easy Team
+// Website: forexroboteasy.com
+
+// Include necessary libraries and indicators
+#include <Trade\Trade.mqh>
+#include <Indicators\PeakRepainterStrict.mqh>
+
+// Declare global variables
+input double stopLoss = 50; // Default stop loss value
+input double takeProfit = 100; // Default take profit value
+input double lotSize = 0.01; // Default lot size
+input int volatilityRange = 20; // Default volatility range
+input int maxOrders = 5; // Maximum number of orders to open
+input double riskPercentage = 2; // Percentage of account balance to risk
+
+// Initialize trade object
+CTrade trade;
+
+// Initialize PeakRepainterStrict indicator object
+PeakRepainterStrict indicator;
+
+// Define OnTick function
+void OnTick()
+{
+    // Check if the indicator is ready
+    if(indicator.Ready())
+    {
+        // Calculate the average number of transactions
+        int averageTransactions = CalculateAverageTransactions();
+        
+        // Adjust volatility range based on average transactions
+        int adjustedVolatilityRange = AdjustVolatilityRange(averageTransactions);
+        
+        // Check if the price is consolidating
+        bool isConsolidating = CheckPriceConsolidation();
+        
+        // Open a new series of orders if conditions are met
+        if(isConsolidating && trade.PositionsTotal() == 0)
+        {
+            OpenOrders(adjustedVolatilityRange);
+        }
+        
+        // Manage manual orders
+        ManageManualOrders();
+    }
+}
+
+// Function to calculate the average number of transactions
+int CalculateAverageTransactions()
+{
+    double averageTransactions = 0;
+    
+    // Calculate average transactions using historical data
+    // ...
+    
+    return (int)MathRound(averageTransactions);
+}
+
+// Function to adjust volatility range
+int AdjustVolatilityRange(int averageTransactions)
+{
+    int adjustedRange = volatilityRange;
+    
+    // Adjust range based on average transactions
+    // ...
+    
+    return adjustedRange;
+}
+
+// Function to check if the price is consolidating
+bool CheckPriceConsolidation()
+{
+    bool isConsolidating = false;
+    
+    // Check for price consolidation
+    // ...
+    
+    return isConsolidating;
+}
+
+// Function to open a new series of orders
+void OpenOrders(int volatilityRange)
+{
+    // Calculate lot size based on risk percentage
+    double accountBalance = trade.AccountBalance();
+    double riskAmount = accountBalance * riskPercentage / 100;
+    double maxLotSize = riskAmount / (volatilityRange * stopLoss);
+    double calculatedLotSize = NormalizeLotSize(maxLotSize);
+    double finalLotSize = NormalizeLotSize(MathMin(calculatedLotSize, lotSize));
+    
+    // Open orders
+    // ...
+}
+
+// Function to normalize lot size
+double NormalizeLotSize(double lotSize)
+{
+    // Normalize lot size using specific rules
+    // ...
+    
+    return lotSize;
+}
+
+// Function to manage manual orders
+void ManageManualOrders()
+{
+    // Manage manual orders
+    // ...
+}
+
+//+------------------------------------------------------------------+
